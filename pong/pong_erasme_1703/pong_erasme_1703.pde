@@ -34,9 +34,19 @@ PFont scoreFont;//score font
 
 
 // Paramètres
-int obstacles_number = 0;
-int malus_number = 0;
-int bonus_number = 2;
+int obstacles_number = 1;
+int malus_number = 1;
+int bonus_number = 1;
+
+
+// Chargement images
+
+PImage bg, bonusimg, malusimg;
+color obstacle_color = color( 255, 205, 0);
+
+// Niveaux
+int lvl;
+int scoreMax;
 
 
 void settings(){
@@ -50,11 +60,15 @@ void setup() {
   // Create the canvas that will be used to send the syphon output
   canvas = createGraphics(width, height, P2D);
   stroke(255);
- scoreFont = createFont ("Rostrot-BoldDynamisch.otf",42); 
+  scoreFont = createFont ("Rostrot-BoldDynamisch.otf",42); 
   textAlign(CENTER);
   textFont(scoreFont); 
   
-    //initial scores
+  //initial levels
+  lvl = 1;
+  scoreMax = 5;
+  
+  //initial scores
   scoreL = 0;
   scoreR = 0;
   
@@ -86,8 +100,67 @@ void setup() {
     malus[i] = new Malus();
   }
   
+  level1();
   initGame();
 }
+
+
+void level1() {
+  
+  // PONG
+  
+  bg = loadImage("img/niv1-fond.jpg");
+  bonusimg = loadImage("img/niv1-bonus.png");
+  malusimg = loadImage("img/niv1-malus.png");
+  obstacle_color = color( 255, 205, 0);
+
+  
+  
+// Paramètres
+  obstacles_number = 1;
+  malus_number = 1;
+  bonus_number = 1;
+  
+
+}
+
+void level2() {
+  
+  // PONG
+
+  bg = loadImage("img/niv2-fond.jpg");
+  bonusimg = loadImage("img/niv2-bonus.png");
+  malusimg = loadImage("img/niv2-malus.png");
+  obstacle_color = color( 240, 50, 0);
+  
+  
+// Paramètres
+  obstacles_number = 1;
+  malus_number = 1;
+  bonus_number = 1;
+  
+
+}
+
+
+void level3() {
+  
+  // PONG
+
+  bg = loadImage("img/niv3-fond.jpg");
+  bonusimg = loadImage("img/niv3-bonus.png");
+  malusimg = loadImage("img/niv3-malus.png");
+  obstacle_color = color( 255, 30, 165);
+  
+  
+// Paramètres
+  obstacles_number = 1;
+  malus_number = 1;
+  bonus_number = 1;
+  
+
+}
+
 
 void initGame() {
   
@@ -145,13 +218,19 @@ void initGame() {
 
 }
 
+
+
+
 void draw() {
 
   // Draw a background for the window
-  background(0);
+  //background(0);
+  image(bg, 0, 0);
   // Begin drawing the canvas
   canvas.beginDraw();
-  canvas.background(0);
+  //canvas.background(0);
+  
+  
   
   //reset paddles out
   p1Pos.y = -1000;
@@ -174,18 +253,20 @@ void draw() {
   
     
     }
-  
+  canvas.image(bg, 0, 0);
   canvas.fill(255);
   canvas.rect(p1Pos.x - pWidth/2, p1Pos.y - pHeight/2, pWidth, pHeight);
   canvas.rect(p2Pos.x - pWidth/2, p2Pos.y - pHeight/2, pWidth, pHeight);
   for(int i=0; i<malus.length; i++){
-    canvas.ellipse(malus[i].position.x, malus[i].position.y, malus[i].radius, malus[i].radius);
+    canvas.image(malusimg, malus[i].position.x, malus[i].position.y);
   }
   for(int i=0; i<bonus.length; i++){
-    canvas.ellipse(bonus[i].position.x, bonus[i].position.y, bonus[i].radius, bonus[i].radius);
+    canvas.image(bonusimg, bonus[i].position.x, bonus[i].position.y);
   }
   for(int i=0; i<obstacles.length; i++){
+    canvas.fill(obstacle_color);
     canvas.rect( obstacles[i].position.x - obstacles[i].width/2, obstacles[i].position.y - obstacles[i].height/2, obstacles[i].width, obstacles[i].height);
+    canvas.fill(255);
   }
   
   // For each balle
@@ -247,6 +328,23 @@ void draw() {
         else if(balls[i].position.x < p1Pos.x) {
         scoreR++; //score +1
         }
+        if(scoreL == scoreMax * lvl || scoreR == scoreMax * lvl){
+          lvl = lvl + 1;
+          switch(lvl) {
+            case 1: 
+              level1();
+              break;
+            
+            case 2: 
+              level2();
+              break;
+             
+             case 3: 
+              level3();
+              break;
+          }
+        }
+        
         initGame();
       }
       
@@ -267,7 +365,7 @@ void draw() {
   textSize (42);
   canvas.text (scoreL, width/2-50, 50);
   canvas.text (scoreR, width/2+50, 50);
-
+  
   canvas.endDraw();
   
   // Draw the augmenta canvas in the window
@@ -277,6 +375,8 @@ void draw() {
   /*if (platform == MACOSX) {
     server.sendImage(canvas);
   }*/
+  
+   
  
 }
 
@@ -292,4 +392,6 @@ boolean isTimerEnded(){
  } else {
    return false;
  }
+ 
+
 }

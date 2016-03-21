@@ -1,16 +1,16 @@
-class Bonus {
+class Malus {
   
   PVector position;
   int radius;
  
   // Contructor
-  Bonus() {
+  Malus() {
     init();
   }
   
   void init(){
     position = new PVector( random(200,400) , random(50,350) );
-    radius = 20;
+    radius = 21;
   }
   
   boolean isColliding(PVector other_position){
