@@ -19,6 +19,9 @@ void ofApp::setup(){
     gui.add(farHandThreshold.setup("Hand Far Threshold", 255, 0, 255));
     gui.add(nearDepthClipping.setup("Near Depth Clipping", 500, 500, 8000));
     gui.add(farDepthClipping.setup("Far Depth Clipping", 8000, 500, 8000));
+    gui.add(interactiveAreaPos.setup("Interactive Area Pos", ofVec2f(0,0), ofVec2f(0,0), ofVec2f(device.getDepthWidth(), device.getDepthHeight())));
+    gui.add(interactiveAreaSize.setup("Interactive Area Size", ofVec2f(device.getDepthWidth(), device.getDepthHeight()), ofVec2f(0,0), ofVec2f(device.getDepthWidth(), device.getDepthHeight())));
+            
 
     nearHandThreshold.addListener(this, &ofApp::onHandThresholdChanged);
     farHandThreshold.addListener(this, &ofApp::onHandThresholdChanged);
@@ -66,17 +69,21 @@ void ofApp::update(){
     // Clear message to be able to reuse it
     m.clear();
     
+    ofRectangle interactiveArea = ofRectangle(interactiveAreaPos->x, interactiveAreaPos->y, interactiveAreaSize->x, interactiveAreaSize->y);
+    
     // Send hands positions
     for(int i=0; i<detectHands.getHands().size(); i++){
-        // Set address with hand id
-        m.setAddress("/handTracker/hand" + ofToString(i));
-        // Args are palm center x and y positions
-        m.addIntArg(detectHands.getHands()[i].palmCenter.x);
-        m.addIntArg(detectHands.getHands()[i].palmCenter.y);
-        // Send message to osc
-        oscSender.sendMessage(m);
-        // Clear message to be able to reuse it
-        m.clear();
+        if(interactiveArea.inside(detectHands.getHands()[i].palmCenter)){
+            // Set address with hand id
+            m.setAddress("/handTracker/hand" + ofToString(i));
+            // Args are palm center x and y positions
+            m.addIntArg(ofMap(detectHands.getHands()[i].palmCenter.x, 0, device.getDepthWidth(), 0, 1));
+            m.addIntArg(ofMap(detectHands.getHands()[i].palmCenter.y, 0, device.getDepthHeight(), 0, 1));
+            // Send message to osc
+            oscSender.sendMessage(m);
+            // Clear message to be able to reuse it
+            m.clear();
+        }
     }
     
 }
@@ -96,6 +103,12 @@ void ofApp::draw(){
     
     device.getColorImage().draw(anchor + cam.getDepthImage().getWidth(),0, device.getColorImage().getWidth()/2, device.getColorImage().getHeight()/2);
     
+    ofPushStyle();
+    ofNoFill();
+    ofSetLineWidth(2);
+    ofSetColor(ofColor::red);
+    ofDrawRectangle(anchor + interactiveAreaPos->x, interactiveAreaPos->y, interactiveAreaSize->x, interactiveAreaSize->y);
+    ofPopStyle();
     
 //    cam.getColorImage().draw(0, cam.getDepthImage().getHeight(), 1920/3, 1080/3);
 //    device.getRegImage().draw(512, 424);
