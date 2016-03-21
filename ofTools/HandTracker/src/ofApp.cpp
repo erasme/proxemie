@@ -32,6 +32,20 @@ void ofApp::setup(){
     
     gui.loadFromFile("settings.xml");
     
+    // Generate interactive area mask
+    ofImage mask;
+    mask.allocate(device.getDepthWidth(), device.getDepthHeight(), OF_IMAGE_GRAYSCALE);
+    ofRectangle interactiveArea = ofRectangle(interactiveAreaPos->x, interactiveAreaPos->y, interactiveAreaSize->x, interactiveAreaSize->y);
+    for(int i=0; i<mask.getWidth()*mask.getHeight(); i++){
+        if(interactiveArea.inside(i%(int)mask.getWidth(), i/mask.getWidth())){
+            mask.setColor(i%(int)mask.getWidth(), i/mask.getWidth(), ofColor::white);
+        }
+        else {
+            mask.setColor(i%(int)mask.getWidth(), i/mask.getWidth(), ofColor::black);
+        }
+    }
+    mask.save("activeAreaMask.png");
+    
     // OSC
     oscSender.setup(oscHost, oscPort);
     
