@@ -91,8 +91,8 @@ void ofApp::update(){
             // Set address with hand id
             m.setAddress("/handTracker/hand" + ofToString(i));
             // Args are palm center x and y positions
-            m.addFloatArg(ofMap(detectHands.getHands()[i].palmCenter.x, 0, device.getDepthWidth(), 0, 1));
-            m.addFloatArg(ofMap(detectHands.getHands()[i].palmCenter.y, 0, device.getDepthHeight(), 0, 1));
+            m.addFloatArg(ofMap(detectHands.getHands()[i].palmCenter.x, interactiveAreaPos->x, interactiveAreaPos->x + interactiveAreaSize->x, 0, 1));
+            m.addFloatArg(ofMap(detectHands.getHands()[i].palmCenter.y, interactiveAreaPos->y, interactiveAreaPos->y + interactiveAreaSize->y, 0, 1));
             // Send message to osc
             oscSender.sendMessage(m);
             // Clear message to be able to reuse it
