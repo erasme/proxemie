@@ -54,7 +54,7 @@ void setup() {
   // Create the canvas that will be used to send the syphon output
   canvas = createGraphics(width, height, P2D);
   stroke(255);
- scoreFont = createFont ("Rostrot-BoldDynamisch.otf",42); 
+  scoreFont = createFont ("Rostrot-BoldDynamisch.otf",42); 
   textAlign(CENTER);
   textFont(scoreFont); 
   
@@ -296,14 +296,22 @@ void draw() {
 void oscEvent(OscMessage theOscMessage) {
   if (theOscMessage.checkAddrPattern("/handTracker/hand0") || theOscMessage.checkAddrPattern("/handTracker/hand0/")) {
               
-    //p1Pos.x = theOscMessage.get(0).floatValue();
-    p1Pos.y = theOscMessage.get(1).floatValue() * height;
-  
+    if(theOscMessage.get(1).floatValue() < 0.5){
+      p1Pos.y = theOscMessage.get(0).floatValue() * height;
+    }
+    else {
+      p2Pos.y = theOscMessage.get(0).floatValue() * height;
+    }
+    
   } else if (theOscMessage.checkAddrPattern("/handTracker/hand1") || theOscMessage.checkAddrPattern("/handTracker/hand1/")) {
 
-    //p2Pos.x = theOscMessage.get(0).floatValue();
-    p2Pos.y = theOscMessage.get(1).floatValue() * height;
-  
+    if(theOscMessage.get(1).floatValue() < 0.5){
+      p1Pos.y = theOscMessage.get(0).floatValue() * height;
+    }
+    else {
+      p2Pos.y = theOscMessage.get(0).floatValue() * height;
+    }
+    
   }
 }
 
