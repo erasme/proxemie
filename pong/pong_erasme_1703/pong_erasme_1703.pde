@@ -394,7 +394,7 @@ void draw() {
 void oscEvent(OscMessage theOscMessage) {
   if (theOscMessage.checkAddrPattern("/handTracker/hand0") || theOscMessage.checkAddrPattern("/handTracker/hand0/")) {
               
-    if(theOscMessage.get(1).floatValue() < 0.5){
+    if(theOscMessage.get(1).floatValue() > 0.5){
       p1Pos.y = theOscMessage.get(0).floatValue() * height;
     }
     else {
@@ -403,7 +403,7 @@ void oscEvent(OscMessage theOscMessage) {
     
   } else if (theOscMessage.checkAddrPattern("/handTracker/hand1") || theOscMessage.checkAddrPattern("/handTracker/hand1/")) {
 
-    if(theOscMessage.get(1).floatValue() < 0.5){
+    if(theOscMessage.get(1).floatValue() > 0.5){
       p1Pos.y = theOscMessage.get(0).floatValue() * height;
     }
     else {
