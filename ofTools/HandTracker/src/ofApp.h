@@ -55,6 +55,9 @@ public:
     
     ofxIntSlider   nearDepthClipping;
     ofxIntSlider   farDepthClipping;
+    
+    ofxVec2Slider  interactiveAreaPos;
+    ofxVec2Slider  interactiveAreaSize;
 
 		
 };

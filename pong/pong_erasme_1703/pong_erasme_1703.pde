@@ -1,9 +1,13 @@
 import codeanticode.syphon.*; // Syphon
+import oscP5.*; // OSC for controller
 
 // Declare the syphon server
 SyphonServer server;
 // Graphics that will hold the syphon/spout texture to send
 PGraphics canvas;
+
+// OSC for controller
+OscP5 oscReceiver;
 
 // Declare a debug mode bool
 boolean debug=false;
@@ -68,7 +72,15 @@ void setup() {
   lvl = 1;
   scoreMax = 5;
   
-  //initial scores
+  // Setup osc receiver for controls
+  oscReceiver = new OscP5(this, 9000);
+  
+  // Create a syphon server to send frames out.
+  if (platform == MACOSX) {
+    server = new SyphonServer(this, "Processing Syphon");
+  }
+  
+    //initial scores
   scoreL = 0;
   scoreR = 0;
   
@@ -233,11 +245,11 @@ void draw() {
   
   
   //reset paddles out
-  p1Pos.y = -1000;
-  p2Pos.y = -1000;
+  //p1Pos.y = -1000;
+  //p2Pos.y = -1000;
   
-  p1Pos.y = mouseY;
-  p2Pos.y = mouseY;
+  //p1Pos.y = mouseY;
+  //p2Pos.y = mouseY;
   
   
   
@@ -372,14 +384,34 @@ void draw() {
   image(canvas, 0, 0, width, height);
   
   // Syphon output
-  /*if (platform == MACOSX) {
+  if (platform == MACOSX) {
     server.sendImage(canvas);
-  }*/
-  
-   
+  }
  
 }
 
+/* incoming osc message are forwarded to the oscEvent method. */
+void oscEvent(OscMessage theOscMessage) {
+  if (theOscMessage.checkAddrPattern("/handTracker/hand0") || theOscMessage.checkAddrPattern("/handTracker/hand0/")) {
+              
+    if(theOscMessage.get(1).floatValue() < 0.5){
+      p1Pos.y = theOscMessage.get(0).floatValue() * height;
+    }
+    else {
+      p2Pos.y = theOscMessage.get(0).floatValue() * height;
+    }
+    
+  } else if (theOscMessage.checkAddrPattern("/handTracker/hand1") || theOscMessage.checkAddrPattern("/handTracker/hand1/")) {
+
+    if(theOscMessage.get(1).floatValue() < 0.5){
+      p1Pos.y = theOscMessage.get(0).floatValue() * height;
+    }
+    else {
+      p2Pos.y = theOscMessage.get(0).floatValue() * height;
+    }
+    
+  }
+}
 
 void startTimer(int _timerLength) {
   lastTime = millis();
