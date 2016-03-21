@@ -1,9 +1,13 @@
 import codeanticode.syphon.*; // Syphon
+import oscP5.*; // OSC for controller
 
 // Declare the syphon server
 SyphonServer server;
 // Graphics that will hold the syphon/spout texture to send
 PGraphics canvas;
+
+// OSC for controller
+OscP5 oscReceiver;
 
 // Declare a debug mode bool
 boolean debug=false;
@@ -53,6 +57,9 @@ void setup() {
  scoreFont = createFont ("Rostrot-BoldDynamisch.otf",42); 
   textAlign(CENTER);
   textFont(scoreFont); 
+  
+  // Setup osc receiver for controls
+  oscReceiver = new OscP5(this, 9000);
   
     //initial scores
   scoreL = 0;
@@ -157,8 +164,8 @@ void draw() {
   p1Pos.y = -1000;
   p2Pos.y = -1000;
   
-  p1Pos.y = mouseY;
-  p2Pos.y = mouseY;
+  //p1Pos.y = mouseY;
+  //p2Pos.y = mouseY;
   
   
   
@@ -280,6 +287,20 @@ void draw() {
  
 }
 
+/* incoming osc message are forwarded to the oscEvent method. */
+void oscEvent(OscMessage theOscMessage) {
+  if (theOscMessage.checkAddrPattern("/handTracker/hand0") || theOscMessage.checkAddrPattern("/handTracker/hand0/")) {
+              
+    //p1Pos.x = theOscMessage.get(0).floatValue();
+    p1Pos.y = theOscMessage.get(1).floatValue() * height;
+  
+  } else if (theOscMessage.checkAddrPattern("/handTracker/hand1") || theOscMessage.checkAddrPattern("/handTracker/hand1/")) {
+
+    //p2Pos.x = theOscMessage.get(0).floatValue();
+    p2Pos.y = theOscMessage.get(1).floatValue() * height;
+  
+  }
+}
 
 void startTimer(int _timerLength) {
   lastTime = millis();
