@@ -28,7 +28,7 @@ float transparencyLeft = 255;
 float transparencyRight = 255;
 float transparencyMessage = 255;
 
-Pong pong = new Pong();
+Pong pong;
 
 void settings(){
   // Set the initial frame size
@@ -38,7 +38,7 @@ void settings(){
 
 void setup() {
   size(1280,800);
-  frameRate(25);
+  frameRate(60);
   
   // Create the canvas that will be used to send the syphon output
   canvas = createGraphics(width, height, P2D);
@@ -49,6 +49,7 @@ void setup() {
   imgMessage = loadImage("img/message.png");
   
   // Setup pong
+  pong = new Pong();
   pong.setup();
   
   // Create a syphon server to send frames out.

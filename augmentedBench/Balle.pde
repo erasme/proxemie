@@ -5,11 +5,11 @@ class Balle {
  
   // Contructor
   Balle() {
-    init();
+    
   }
   
-  void init(){
-    position = new PVector(width/2, height/2);
+  void init(int _width, int _height){
+    position = new PVector(_width/2, _height/2);
     initDir = new PVector(random(5,9), random(2,6));
     dir = initDir;
     size = 20;

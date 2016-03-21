@@ -77,6 +77,7 @@ class Pong {
     
     balls = new Balle[2];
     balls[0] = new Balle();
+    balls[0].init(_width, _height);
    
      // Crée le tableau d'obstacles
     obstacles = new Obstacle[obstacles_number];
@@ -173,7 +174,7 @@ class Pong {
     pWidth = 20;
     pHeight = 100;
     
-    balls[0].init(); 
+    balls[0].init(_width, _height); 
     if(balls[1] != null){
       balls[1] = null;
     }
@@ -306,6 +307,7 @@ class Pong {
             // Effet du malus
             println("Malus");
             balls[1] = new Balle();
+            balls[1].init(_width, _height);
             malus[current_malus].init();
           }
         }
