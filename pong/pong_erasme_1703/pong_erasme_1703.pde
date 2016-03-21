@@ -61,6 +61,11 @@ void setup() {
   // Setup osc receiver for controls
   oscReceiver = new OscP5(this, 9000);
   
+  // Create a syphon server to send frames out.
+  if (platform == MACOSX) {
+    server = new SyphonServer(this, "Processing Syphon");
+  }
+  
     //initial scores
   scoreL = 0;
   scoreR = 0;
@@ -161,8 +166,8 @@ void draw() {
   canvas.background(0);
   
   //reset paddles out
-  p1Pos.y = -1000;
-  p2Pos.y = -1000;
+  //p1Pos.y = -1000;
+  //p2Pos.y = -1000;
   
   //p1Pos.y = mouseY;
   //p2Pos.y = mouseY;
@@ -281,9 +286,9 @@ void draw() {
   image(canvas, 0, 0, width, height);
   
   // Syphon output
-  /*if (platform == MACOSX) {
+  if (platform == MACOSX) {
     server.sendImage(canvas);
-  }*/
+  }
  
 }
 
