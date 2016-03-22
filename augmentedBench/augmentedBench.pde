@@ -3,11 +3,11 @@
  * example shows how to send and receive osc messages.
  * oscP5 website at http://www.sojamo.de/oscP5
  */
- 
+
 import oscP5.*;
 import netP5.*;
 import codeanticode.syphon.*; // Syphon
-  
+
 OscP5 oscP5;
 NetAddress myRemoteLocation;
 
@@ -20,6 +20,7 @@ PFont scoreFont;//score font
 
 boolean LeftPersonIsHere = false;
 boolean RightPersonIsHere = false;
+boolean PongNeedSetup = true;
 
 PImage imgLeft;
 PImage imgRight;
@@ -31,7 +32,7 @@ float transparencyMessage = 255;
 
 Pong pong;
 
-void settings(){
+void settings() {
   // Set the initial frame size
   //size(1920, 1080, P2D);
   fullScreen(P2D, 1);
@@ -39,36 +40,36 @@ void settings(){
 }
 
 void setup() {
-//  size(1920,1080);
+  //  size(1920,1080);
   frameRate(60);
 
-  
+
   // Create the canvas that will be used to send the syphon output
   canvas = createGraphics(width, height, P2D);
 
-  
+
   // Load images
   imgLeft = loadImage("img/cible_j1.png");
   imgRight = loadImage("img/cible_j2.png");
   imgMessage = loadImage("img/message.png");
-  
+
   // Setup pong
   pong = new Pong();
   pong.setup();
-  
-    
+
+
   // affichage score
   scoreFont = loadFont ("Avenir-Heavy-48.vlw"); 
 
-  
+
   // Create a syphon server to send frames out.
   if (platform == MACOSX) {
     server = new SyphonServer(this, "Processing Syphon");
   }
-  
+
   /* start oscP5, listening for incoming messages at port 12000 */
-  oscP5 = new OscP5(this,7000);
-  
+  oscP5 = new OscP5(this, 7000);
+
   /* myRemoteLocation is a NetAddress. a NetAddress takes 2 parameters,
    * an ip address and a port number. myRemoteLocation is used as parameter in
    * oscP5.send() when sending osc packets to another computer, device, 
@@ -76,57 +77,80 @@ void setup() {
    * and the port of the remote location address are the same, hence you will
    * send messages back to this sketch.
    */
-  myRemoteLocation = new NetAddress("127.0.0.1",12000);
+  myRemoteLocation = new NetAddress("127.0.0.1", 12000);
 }
 
 
 void draw() {
-  
+
   // Update the pong
-  pong.draw();
-  
-  
+  if (LeftPersonIsHere == true && RightPersonIsHere == true) {
+    if (PongNeedSetup == true) {
+      pong.setup(); 
+      PongNeedSetup = false;
+    }
+
+    pong.draw();
+  } else {
+    PongNeedSetup = true;
+  }
+
+
+
+
   // Begin drawing the canvas
   canvas.beginDraw();
-  
+
   background(0);
 
-  
+
   if (LeftPersonIsHere == true) { 
-    if (transparencyLeft < 255) { transparencyLeft += 5; }
+    if (transparencyLeft > 0) { 
+      transparencyLeft -= 5;
+    }
+  } else { 
+    if (transparencyLeft < 255) { 
+      transparencyLeft += 5;
+    }
   }
-    
-  else { 
-    if (transparencyLeft > 0) { transparencyLeft -= 5; } 
-  }
-    
+
   if (RightPersonIsHere == true) { 
-    if (transparencyRight < 255) { transparencyRight += 5; }
-  } 
-  else { 
-    if (transparencyRight > 0) { transparencyRight -= 5; }
+    if (transparencyRight > 0) { 
+      transparencyRight -= 5;
+    }
+  } else { 
+    if (transparencyRight < 255) { 
+      transparencyRight += 5;
+    }
   }
-    
-  if (LeftPersonIsHere == true || RightPersonIsHere == true){ 
-    if (transparencyMessage < 255) { transparencyMessage += 5; }
-  } 
-  else { 
-    if (transparencyMessage > 0) { transparencyMessage -= 5; }
+
+  if (LeftPersonIsHere == true || RightPersonIsHere == true) { 
+    if (transparencyMessage < 255) { 
+      transparencyMessage += 5;
+    }
+  } else { 
+    if (transparencyMessage > 0) { 
+      transparencyMessage -= 5;
+    }
   }  
-  
+  canvas.imageMode(CENTER);
   canvas.tint(255, transparencyMessage);  
   canvas.image(imgMessage, 300, 320);
-  
+
   canvas.tint(255, transparencyLeft);
-  canvas.image(imgLeft, 150, 0);
-  
+  canvas.image(imgLeft, width*0.3, height*0.5, imgLeft.width*0.6, imgLeft.height*0.6);
+
   canvas.tint(255, transparencyRight);
-  canvas.image(imgRight, 820, 0);
-  
+  canvas.image(imgRight, width*0.7, height*0.5, imgRight.width*0.6, imgRight.height*0.6);
+
   // Draw the pong
   canvas.tint(255);
-  canvas.image(pong.canvas, width/2-(pong.canvas.width/2)*0.8, height/2-(pong.canvas.height/2)*0.8, pong.canvas.width*0.8, pong.canvas.height*0.8);
-  
+  if (LeftPersonIsHere == true && RightPersonIsHere == true) {
+    canvas.image(pong.canvas, width/2, height/2, pong.canvas.width*0.8, pong.canvas.height*0.8);
+  }
+
+
+
   //score position
   canvas.textSize (62);
   canvas.textAlign(CENTER);
@@ -138,18 +162,17 @@ void draw() {
   canvas.text (pong.scoreL, 0, 0);
   canvas.text (pong.scoreR, width*-0.3, 0);
   canvas.rotate(PI);
-  
-  
+
+
   canvas.endDraw();
-  
+
   // Syphon output
   if (platform == MACOSX) {
     server.sendImage(canvas);
   }
-  
+
   // Draw the canvas in the window
   image(canvas, 0, 0, width, height);
-  
 }
 
 /* incoming osc message are forwarded to the oscEvent method. */
@@ -158,9 +181,7 @@ void oscEvent(OscMessage theOscMessage) {
     LeftPersonIsHere = true;
   } else if (theOscMessage.checkAddrPattern("/benchLeft/personWillLeave")) {
     LeftPersonIsHere = false;
-  }
-  
-  else if (theOscMessage.checkAddrPattern("/benchRight/personEntered")) {
+  } else if (theOscMessage.checkAddrPattern("/benchRight/personEntered")) {
     RightPersonIsHere = true;
   } else if (theOscMessage.checkAddrPattern("/benchRight/personWillLeave")) {
     RightPersonIsHere = false;
