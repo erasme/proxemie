@@ -1,6 +1,10 @@
 import oscP5.*; // OSC for controller
 
+
 class Pong {
+  
+
+
   
   int _width = 640;
   int _height = 400;
@@ -68,6 +72,8 @@ class Pong {
     lvl = 1;
     scoreMax = 5;
     
+   
+    
     // Setup osc receiver for controls
     oscReceiver = new OscP5(this, 9000);
     
@@ -117,6 +123,8 @@ class Pong {
     bonusimg = loadImage("img/niv1-bonus.png");
     malusimg = loadImage("img/niv1-malus.png");
     obstacle_color = color( 255, 205, 0);
+    p1Pos = new PVector(30, -100);
+    p2Pos = new PVector(_width-30, -100);
   
     
     
@@ -136,6 +144,8 @@ class Pong {
     bonusimg = loadImage("img/niv2-bonus.png");
     malusimg = loadImage("img/niv2-malus.png");
     obstacle_color = color( 240, 50, 0);
+    p1Pos = new PVector(110, -100);
+    p2Pos = new PVector(_width-110, -100);
     
     
   // Paramètres
@@ -155,7 +165,8 @@ class Pong {
     bonusimg = loadImage("img/niv3-bonus.png");
     malusimg = loadImage("img/niv3-malus.png");
     obstacle_color = color( 255, 30, 165);
-    
+    p1Pos = new PVector(180, -100);
+    p2Pos = new PVector(_width-180, -100);
     
   // Paramètres
     obstacles_number = 1;
@@ -169,8 +180,6 @@ class Pong {
   void initGame() {
     
     // PONG
-    p1Pos = new PVector(30, -100);
-    p2Pos = new PVector(_width-30, -100);
     pWidth = 20;
     pHeight = 100;
     
@@ -237,8 +246,8 @@ class Pong {
     //p1Pos.y = -1000;
     //p2Pos.y = -1000;
     
-    //p1Pos.y = mouseY;
-    //p2Pos.y = mouseY;
+   p1Pos.y = mouseY;
+    p2Pos.y = mouseY;
     
     
     

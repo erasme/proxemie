@@ -40,6 +40,7 @@ void setup() {
   size(1280,800);
   frameRate(60);
   
+  
   // Create the canvas that will be used to send the syphon output
   canvas = createGraphics(width, height, P2D);
   
