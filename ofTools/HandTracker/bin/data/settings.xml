@@ -1,0 +1,11 @@
+<Settings>
+	<OSC_Host>127.0.0.1</OSC_Host>
+	<OSC_Port>9000</OSC_Port>
+	<Hand_Near_Threshold>61</Hand_Near_Threshold>
+	<Hand_Far_Threshold>80</Hand_Far_Threshold>
+	<Near_Depth_Clipping>500</Near_Depth_Clipping>
+	<Far_Depth_Clipping>7025</Far_Depth_Clipping>
+<Settings/>
+	<Interactive_Area_Pos>208.98, 85.7143</Interactive_Area_Pos>
+	<Interactive_Area_Size>143.673, 293.878</Interactive_Area_Size>
+</Settings>
