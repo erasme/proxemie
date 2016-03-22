@@ -10,7 +10,7 @@ class Obstacle {
   
   void init(){
     position = new PVector( random(200,400) , random(50,350) );
-    height = 100;
+    height = (int)random(50, 100);
     width = 10;
   }
   
