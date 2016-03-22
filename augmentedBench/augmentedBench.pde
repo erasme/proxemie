@@ -32,12 +32,13 @@ Pong pong;
 
 void settings(){
   // Set the initial frame size
-  size(1280, 800, P2D);
+  //size(1920, 1080, P2D);
+  fullScreen(P2D, 1);
   PJOGL.profile=1; // Force OpenGL2 mode for Syphobn compatibility
 }
 
 void setup() {
-  size(1280,800);
+//  size(1920,1080);
   frameRate(60);
   
   
