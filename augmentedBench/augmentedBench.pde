@@ -22,10 +22,8 @@ boolean LeftPersonIsHere = false;
 boolean RightPersonIsHere = false;
 boolean PongNeedSetup = true;
 
-PImage imgLeft1;
-PImage imgLeft2;
-PImage imgRight1;
-PImage imgRight2;
+PImage imgTarget1;
+PImage imgTarget2;
 PImage imgLueurLeft;
 PImage imgLueurRight;
 PImage imgMessage;
@@ -53,10 +51,8 @@ void setup() {
 
 
   // Load images
-  imgLeft1 = loadImage("img/cible1-1.png");
-  imgLeft2 = loadImage("img/cible1-2.png");
-  imgRight1 = loadImage("img/cible2-1.png");
-  imgRight2 = loadImage("img/cible2-2.png");
+  imgTarget1 = loadImage("img/cible1-1.png");
+  imgTarget2 = loadImage("img/cible1-2.png");
   imgMessage = loadImage("img/message.png");
   imgLueurLeft = loadImage("img/lueurleft.png");
   imgLueurRight = loadImage("img/lueurright.png");
@@ -146,16 +142,16 @@ void draw() {
   canvas.image(imgMessage, 300, 320);
 
   canvas.tint(255, transparencyLeft);
-  canvas.image(imgLeft1, width*0.3, height*0.5, imgLeft1.width*0.6, imgLeft1.height*0.6);
+  canvas.image(imgTarget1, width*0.3, height*0.5, imgTarget1.width*0.6, imgTarget1.height*0.6);
   
   canvas.tint(255, transparencyLeft);
-  canvas.image(imgLeft2, width*0.3, height*0.5, imgLeft2.width*0.6, imgLeft2.height*0.6);
+  canvas.image(imgTarget2, width*0.3, height*0.5, imgTarget2.width*0.6, imgTarget2.height*0.6);
 
   canvas.tint(255, transparencyRight);
-  canvas.image(imgRight1, width*0.7, height*0.5, imgRight1.width*0.6, imgRight1.height*0.6);
+  canvas.image(imgTarget1, width*0.7, height*0.5, imgTarget1.width*0.6, imgTarget1.height*0.6);
     
   canvas.tint(255, transparencyRight);
-  canvas.image(imgRight2, width*0.7, height*0.5, imgRight2.width*0.6, imgRight2.height*0.6);
+  canvas.image(imgTarget2, width*0.7, height*0.5, imgTarget2.width*0.6, imgTarget2.height*0.6);
   
   /*canvas.tint(255, transparencyLeft);
   canvas.image(imgLueurLeft, width*0.3, height*0.5, imgLueurLeft.width*0.6, imgLueurLeft.height*0.6);

@@ -73,7 +73,7 @@ class Pong {
 
     //initial levels
     lvl = 1;
-    scoreMax = 7;
+    scoreMax = 8;
 
     // Setup osc receiver for controls
     oscReceiver = new OscP5(this, 9000);
