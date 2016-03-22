@@ -35,7 +35,7 @@ class Pong {
   // Score
   int scoreL;//score left
   int scoreR;//score right
-  PFont scoreFont;//score font
+
 
 
   // Paramètres
@@ -63,10 +63,8 @@ class Pong {
     // Create the canvas that will be used to send the syphon output
     canvas = createGraphics(_width, _height, P2D);
     canvas.noStroke();
-    scoreFont = createFont ("Rostrot-BoldDynamisch.otf", 42); 
-    textAlign(CENTER);
-    textFont(scoreFont); 
-
+    
+    
     //new timerBonus
     timerBonus = new Timer();
 
@@ -126,7 +124,7 @@ class Pong {
     bonusimg = loadImage("img/niv1-bonus.png");
     malusimg = loadImage("img/niv1-malus.png");
     obstacle_color = color( 255, 205, 0);
-   p1Pos = new PVector(30, -100);
+    p1Pos = new PVector(30, -100);
     p2Pos = new PVector(_width-30, -100);
 
 
@@ -242,8 +240,8 @@ class Pong {
     canvas.noStroke();
     
     //reset paddles out
-    p1Pos.y = mouseY;
-    p2Pos.y = mouseY;
+    //p1Pos.y = mouseY;
+    //p2Pos.y = mouseY;
 
 
     if (timerReset.isTimerEnded() && gameover == true) {
@@ -373,10 +371,7 @@ class Pong {
     canvas.rect(p2Pos.x - pWidth/2, p2Pos.y - pHeight/2, pWidth, pHeight);
 
 
-    //score position
-    textSize (42);
-    canvas.text (scoreL, _width/2-50, 50);
-    canvas.text (scoreR, _width/2+50, 50);
+    
 
     canvas.endDraw();
   }

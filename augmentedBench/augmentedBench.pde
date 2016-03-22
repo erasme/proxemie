@@ -16,6 +16,7 @@ SyphonServer server;
 
 // Graphics that will hold the syphon/spout texture to send
 PGraphics canvas;
+PFont scoreFont;//score font
 
 boolean LeftPersonIsHere = false;
 boolean RightPersonIsHere = false;
@@ -40,10 +41,11 @@ void settings(){
 void setup() {
 //  size(1920,1080);
   frameRate(60);
-  
+
   
   // Create the canvas that will be used to send the syphon output
   canvas = createGraphics(width, height, P2D);
+
   
   // Load images
   imgLeft = loadImage("img/cible_j1.png");
@@ -53,6 +55,11 @@ void setup() {
   // Setup pong
   pong = new Pong();
   pong.setup();
+  
+    
+  // affichage score
+  scoreFont = loadFont ("Avenir-Heavy-48.vlw"); 
+
   
   // Create a syphon server to send frames out.
   if (platform == MACOSX) {
@@ -77,6 +84,7 @@ void draw() {
   
   // Update the pong
   pong.draw();
+  
   
   // Begin drawing the canvas
   canvas.beginDraw();
@@ -117,7 +125,19 @@ void draw() {
   
   // Draw the pong
   canvas.tint(255);
-  canvas.image(pong.canvas, 0, 0);
+  canvas.image(pong.canvas, width/2-(pong.canvas.width/2)*0.8, height/2-(pong.canvas.height/2)*0.8, pong.canvas.width*0.8, pong.canvas.height*0.8);
+  
+  //score position
+  canvas.textSize (62);
+  canvas.textAlign(CENTER);
+  canvas.textFont(scoreFont); 
+  canvas.text (pong.scoreL, width*0.35, height*0.9);
+  canvas.text (pong.scoreR, width*0.65, height*0.9);
+  canvas.translate(width*0.35, height*0.2);
+  canvas.rotate(PI);
+  canvas.text (pong.scoreL, 0, 0);
+  canvas.text (pong.scoreR, width*-0.3, 0);
+  canvas.rotate(PI);
   
   
   canvas.endDraw();
