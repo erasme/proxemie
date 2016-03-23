@@ -110,7 +110,7 @@ void draw() {
       timerLaunchGame.startTimer(5000);
     }
     if ( timerLaunchGame.isTimerEnded() ) {
-      pong.draw();
+      pong.update();
     }
   } else {
     PongNeedSetup = true;
@@ -166,10 +166,10 @@ void draw() {
   canvas.tint(255, transparencyMessage);  
   canvas.image(imgMessage, 300, 320);
 
-  canvas.tint(255, transparencyLeft * (sin(millis() * 0.001)+1)/2);
+  canvas.tint(255, transparencyLeft * (sin(millis() * 0.001)+1)/2*0.8);
   canvas.image(imgLueurLeft, width*0.3, height*0.5, imgLueurLeft.width*0.6, imgLueurLeft.height*0.6);
 
-  canvas.tint(255, transparencyRight * (sin(millis() * 0.001)+1)/2);
+  canvas.tint(255, transparencyRight * (sin(millis() * 0.001)+1)/2*0.8);
   canvas.image(imgLueurLeft, width*0.7, height*0.5, imgLueurLeft.width*0.6, imgLueurLeft.height*0.6);
 
 
@@ -201,23 +201,49 @@ void draw() {
   canvas.image(imgTarget2, 0, 0, imgTarget2.width*0.6, imgTarget2.height*0.6);
   canvas.popMatrix();
 
-  canvas.pushMatrix();
-  canvas.tint(255, transparencyLeft);
-  canvas.image(imgLogo, width*0.2, height*0.5, imgLogo.width*0.4, imgLogo.height*0.4);
-  canvas.rotate(PI);
-  canvas.popMatrix();
-  
-  canvas.pushMatrix();
-  canvas.tint(255, transparencyLeft);
-  canvas.image(imgLogo, width*0.9, height*0.5, imgLogo.width*0.4, imgLogo.height*0.4);
-  canvas.rotate(1.5707963267949);
-  canvas.popMatrix();
+
 
   // Draw the pong
   canvas.tint(255);
   if (LeftPersonIsHere == true && RightPersonIsHere == true) {
     canvas.image(pong.canvas, width/2, height/2, pong.canvas.width*0.8, pong.canvas.height*0.8);
+
+    if ( timerLaunchGame.isTimerEnded() ) {
+      // Affichage du logo
+      // Endroit
+      canvas.pushMatrix();
+      canvas.translate(width*0.15, height*0.55);
+      canvas.rotate(PI/2);
+      canvas.image(imgLogo, 0, 0, imgLogo.width*0.3, imgLogo.height*0.3);
+      canvas.popMatrix();
+
+      // Envers
+      canvas.pushMatrix();
+      canvas.translate(width*0.87, height*0.55);
+      canvas.rotate(PI/-2);
+      canvas.image(imgLogo, 0, 0, imgLogo.width*0.3, imgLogo.height*0.3);
+      canvas.popMatrix();
+
+      // Affichage du score endroit
+      canvas.textSize(48);
+      canvas.text (pong.scoreL, width*0.35, height*0.9);
+      canvas.text (pong.scoreR, width*0.65, height*0.9);
+      canvas.textSize(32);
+      canvas.text ("niveau "+pong.lvl, width*0.5, height*0.9);
+      canvas.translate(width*0.35, height*0.2);
+
+      // Affichage du score envers
+      canvas.rotate(PI);
+      canvas.textSize(48);
+      canvas.text (pong.scoreL, 0, 0);
+      canvas.text (pong.scoreR, width*-0.3, 0);
+      canvas.textSize(32);
+      canvas.text ("niveau "+pong.lvl, width*-0.15, 0);
+      canvas.rotate(PI);
+    }
   }
+
+
 
 
 
@@ -240,16 +266,7 @@ void draw() {
     break;
   }
 
-  canvas.text (pong.scoreL, width*0.35, height*0.9);
-  canvas.text (pong.scoreR, width*0.65, height*0.9);
-  canvas.translate(width*0.35, height*0.2);
-  canvas.rotate(PI);
 
-
-
-  canvas.text (pong.scoreL, 0, 0);
-  canvas.text (pong.scoreR, width*-0.3, 0);
-  canvas.rotate(PI);
 
 
   canvas.endDraw();

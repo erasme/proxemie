@@ -9,7 +9,7 @@ class Balle {
 
   void init(int _width, int _height) {
     position = new PVector(_width/2, _height/2);
-    initDir = new PVector(random(5, 9), random(2, 6));
+    initDir = new PVector(random(4, 8), random(1, 3));
 
     float x = random(0, 1);
     if (x > 0.5) {

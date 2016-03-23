@@ -45,6 +45,7 @@ class Pong {
   int bonus_number = 1;
   int resetTime = 1000;
   int startLvl = 5000;
+  int scoreMax = 2;
 
 
   // Chargement images
@@ -54,9 +55,9 @@ class Pong {
 
   // Niveaux
   int lvl;
-  int scoreMax;
 
   //Boolean Game Over
+  boolean isPlaying;
   boolean gameover;
 
 
@@ -66,6 +67,8 @@ class Pong {
     canvas = createGraphics(_width, _height, P2D);
     canvas.noStroke();
 
+    isPlaying = false;
+    gameover = false;
 
     //new timerBonus
     timerBonus = new Timer();
@@ -78,7 +81,7 @@ class Pong {
 
     //initial levels
     lvl = 1;
-    scoreMax = 8;
+
 
     // Setup osc receiver for controls
     oscReceiver = new OscP5(this, 9000);
@@ -182,7 +185,7 @@ class Pong {
   void initGame() {
 
     //Boolean Game Over
-    gameover = false;
+    isPlaying = true;
 
     // PONG
 
@@ -234,7 +237,7 @@ class Pong {
     }
   }
 
-  void draw() {
+  void update() {
 
     // Begin drawing the canvas
     canvas.beginDraw();
@@ -249,11 +252,11 @@ class Pong {
     //p2Pos.y = mouseY;
 
 
-    if ( timerReset.isTimerEnded() && gameover == true && timerStartLvl.isTimerEnded() ) {
+    if ( timerReset.isTimerEnded() && isPlaying == false && timerStartLvl.isTimerEnded() && gameover == false) {
       initGame();
     }
 
-    if (gameover == false) {
+    if (isPlaying == true && gameover == false) {
       // fin de bonus
       if (timerBonus.isTimerEnded() == true) {
         pHeight = 100;
@@ -318,29 +321,36 @@ class Pong {
             } else if (balls[i].position.x < p1Pos.x) {
               scoreR++; //score +1
             }
-            if (scoreL == scoreMax * lvl || scoreR == scoreMax * lvl) {
+
+            isPlaying = false;
+
+            // Si la partie est terminée
+            if (scoreL >= scoreMax * 3 || scoreR >= scoreMax * 3) {
+              gameover = true;
+            } 
+            // Si on doit passer au niveau suivant
+            else if (scoreL == scoreMax * lvl || scoreR == scoreMax * lvl) {
               timerStartLvl.startTimer(startLvl);
               lvl = lvl + 1;
               switch(lvl) {
               case 1:              
-                  level1();
-                  break;
-                
+                level1();
+                break;
+
               case 2: 
-                  level2();
-                  break;
-                
+                level2();
+                break;
 
               case 3: 
-                  level3();
-                  break;
-                
+                level3();
+                break;
               }
+            } 
+            // Sinon, cas d'un point normal
+            else {
+              timerReset.startTimer(resetTime);
+              //initGame();
             }
-
-            gameover = true;
-            timerReset.startTimer(resetTime);
-            //initGame();
           }
         } // fin du test si balls[i] != null
       }
@@ -366,17 +376,22 @@ class Pong {
         canvas.rect( obstacles[i].position.x - obstacles[i].width/2, obstacles[i].position.y - obstacles[i].height/2, obstacles[i].width, obstacles[i].height);
         canvas.fill(255);
       }
+    } // fin du if(isPLaying && gameover = false)
+
+    if ( gameover == false ) {
+      //raquettes
+      canvas.fill(255);
+      canvas.rect(p1Pos.x - pWidth/2, p1Pos.y - pHeight/2, pWidth, pHeight);
+      canvas.rect(p2Pos.x - pWidth/2, p2Pos.y - pHeight/2, pWidth, pHeight);
+    //} else { canvas.image()
     }
+  
 
     /*
     for (int nety=0; nety<_height+50; nety=nety+20) {
      rect(_width/2, nety, 10, 10);
      }
      */
-    //raquettes
-    canvas.fill(255);
-    canvas.rect(p1Pos.x - pWidth/2, p1Pos.y - pHeight/2, pWidth, pHeight);
-    canvas.rect(p2Pos.x - pWidth/2, p2Pos.y - pHeight/2, pWidth, pHeight);
 
 
 
