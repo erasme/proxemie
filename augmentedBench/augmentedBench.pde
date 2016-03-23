@@ -16,7 +16,9 @@ SyphonServer server;
 
 // Graphics that will hold the syphon/spout texture to send
 PGraphics canvas;
-PFont scoreFont;//score font
+PFont scoreFont1;//score font
+PFont scoreFont2;//score font
+PFont scoreFont3;//score font
 
 boolean LeftPersonIsHere = false;
 boolean RightPersonIsHere = false;
@@ -27,10 +29,12 @@ PImage imgTarget2;
 PImage imgLueurLeft;
 PImage imgLueurRight;
 PImage imgMessage;
+PImage imgLogo;
 
 float transparencyLeft = 255;
 float transparencyRight = 255;
 float transparencyMessage = 255;
+float transparencyLogo = 255;
 
 Pong pong;
 
@@ -56,6 +60,7 @@ void setup() {
   imgMessage = loadImage("img/message.png");
   imgLueurLeft = loadImage("img/lueurleft.png");
   imgLueurRight = loadImage("img/lueurright.png");
+  imgLogo = loadImage("img/logocouleur.png");
 
   // Setup pong
   pong = new Pong();
@@ -63,7 +68,9 @@ void setup() {
 
 
   // affichage score
-  scoreFont = loadFont ("Avenir-Heavy-48.vlw"); 
+  scoreFont1 = loadFont ("OCRAStd-48.vlw"); 
+  scoreFont2 = loadFont ("Megatron-48.vlw"); 
+  scoreFont3 = loadFont ("Rostrot-SemiboldDynamisch-48.vlw"); 
 
 
   // Create a syphon server to send frames out.
@@ -98,9 +105,6 @@ void draw() {
   } else {
     PongNeedSetup = true;
   }
-
-
-
 
   // Begin drawing the canvas
   canvas.beginDraw();
@@ -137,27 +141,67 @@ void draw() {
       transparencyMessage -= 5;
     }
   }  
+
+  if (LeftPersonIsHere == true && RightPersonIsHere == true) { 
+    if (transparencyLogo < 255) { 
+      transparencyLogo += 5;
+    }
+  } else { 
+    if (transparencyLogo > 0) { 
+      transparencyLogo -= 5;
+    }
+  }  
+
   canvas.imageMode(CENTER);
   canvas.tint(255, transparencyMessage);  
   canvas.image(imgMessage, 300, 320);
 
-  canvas.tint(255, transparencyLeft);
-  canvas.image(imgTarget1, width*0.3, height*0.5, imgTarget1.width*0.6, imgTarget1.height*0.6);
-  
-  canvas.tint(255, transparencyLeft);
-  canvas.image(imgTarget2, width*0.3, height*0.5, imgTarget2.width*0.6, imgTarget2.height*0.6);
-
-  canvas.tint(255, transparencyRight);
-  canvas.image(imgTarget1, width*0.7, height*0.5, imgTarget1.width*0.6, imgTarget1.height*0.6);
-    
-  canvas.tint(255, transparencyRight);
-  canvas.image(imgTarget2, width*0.7, height*0.5, imgTarget2.width*0.6, imgTarget2.height*0.6);
-  
-  /*canvas.tint(255, transparencyLeft);
+  canvas.tint(255, transparencyLeft * (sin(millis() * 0.001)+1)/2);
   canvas.image(imgLueurLeft, width*0.3, height*0.5, imgLueurLeft.width*0.6, imgLueurLeft.height*0.6);
-  
+
+  canvas.tint(255, transparencyRight * (sin(millis() * 0.001)+1)/2);
+  canvas.image(imgLueurLeft, width*0.7, height*0.5, imgLueurLeft.width*0.6, imgLueurLeft.height*0.6);
+
+
+  canvas.pushMatrix();
+  canvas.translate(width*0.3, height*0.5); // Move away from the center
+  canvas.rotate(millis() * 0.0001 * PI);    // One revolution every second
+  canvas.tint(255, transparencyLeft);
+  canvas.image(imgTarget1, 0, 0, imgTarget1.width*0.6, imgTarget1.height*0.6);
+  canvas.popMatrix();
+
+  canvas.pushMatrix();
+  canvas.translate(width*0.3, height*0.5); // Move away from the center
+  canvas.rotate(millis() * -0.0001 * PI);    // One revolution every second
+  canvas.tint(255, transparencyLeft);
+  canvas.image(imgTarget2, 0, 0, imgTarget2.width*0.6, imgTarget2.height*0.6);
+  canvas.popMatrix();
+
+  canvas.pushMatrix();
+  canvas.translate(width*0.7, height*0.5); // Move away from the center
+  canvas.rotate(millis() * 0.0001 * PI);    // One revolution every second
   canvas.tint(255, transparencyRight);
-  canvas.image(imgLueurLeft, width*0.7, height*0.5, imgLueurLeft.width*0.6, imgLueurLeft.height*0.6);*/
+  canvas.image(imgTarget1, 0, 0, imgTarget1.width*0.6, imgTarget1.height*0.6);
+  canvas.popMatrix();
+
+  canvas.pushMatrix();
+  canvas.translate(width*0.7, height*0.5); // Move away from the center
+  canvas.rotate(millis() * -0.0001 * PI);    // One revolution every second
+  canvas.tint(255, transparencyRight);
+  canvas.image(imgTarget2, 0, 0, imgTarget2.width*0.6, imgTarget2.height*0.6);
+  canvas.popMatrix();
+
+  canvas.pushMatrix();
+  canvas.tint(255, transparencyLeft);
+  canvas.image(imgLogo, width*0.2, height*0.5, imgLogo.width*0.4, imgLogo.height*0.4);
+  canvas.rotate(PI);
+  canvas.popMatrix();
+  
+  canvas.pushMatrix();
+  canvas.tint(255, transparencyLeft);
+  canvas.image(imgLogo, width*0.9, height*0.5, imgLogo.width*0.4, imgLogo.height*0.4);
+  canvas.rotate(1.5707963267949);
+  canvas.popMatrix();
 
   // Draw the pong
   canvas.tint(255);
@@ -170,11 +214,29 @@ void draw() {
   //score position
   canvas.textSize (62);
   canvas.textAlign(CENTER);
-  canvas.textFont(scoreFont); 
+
+
+  switch(pong.lvl) {
+  case 1: 
+    canvas.textFont(scoreFont1);
+    break;
+
+  case 2: 
+    canvas.textFont(scoreFont2);
+    break;
+
+  case 3: 
+    canvas.textFont(scoreFont3);
+    break;
+  }
+
   canvas.text (pong.scoreL, width*0.35, height*0.9);
   canvas.text (pong.scoreR, width*0.65, height*0.9);
   canvas.translate(width*0.35, height*0.2);
   canvas.rotate(PI);
+
+
+
   canvas.text (pong.scoreL, 0, 0);
   canvas.text (pong.scoreR, width*-0.3, 0);
   canvas.rotate(PI);
