@@ -31,6 +31,7 @@ class Pong {
   //Timer
   Timer timerBonus;
   Timer timerReset;
+  Timer timerStartLvl;
 
   // Score
   int scoreL;//score left
@@ -43,6 +44,7 @@ class Pong {
   int malus_number = 1;
   int bonus_number = 1;
   int resetTime = 1000;
+  int startLvl = 5000;
 
 
   // Chargement images
@@ -63,13 +65,16 @@ class Pong {
     // Create the canvas that will be used to send the syphon output
     canvas = createGraphics(_width, _height, P2D);
     canvas.noStroke();
-    
-    
+
+
     //new timerBonus
     timerBonus = new Timer();
 
     //new timerReset
     timerReset = new Timer();
+
+    //new timerStartLvl
+    timerStartLvl = new Timer();
 
     //initial levels
     lvl = 1;
@@ -143,7 +148,7 @@ class Pong {
     bonusimg = loadImage("img/niv2-bonus.png");
     malusimg = loadImage("img/niv2-malus.png");
     obstacle_color = color( 240, 50, 0);
-    
+
     p1Pos = new PVector(115, -100);
     p2Pos = new PVector(_width-115, -100);
 
@@ -180,7 +185,7 @@ class Pong {
     gameover = false;
 
     // PONG
- 
+
     pWidth = 20;
     pHeight = 100;
 
@@ -233,18 +238,18 @@ class Pong {
 
     // Begin drawing the canvas
     canvas.beginDraw();
-    
+
     // Draw a background for the window
     canvas.background(0);
     canvas.image(bg, 0, 0);
     canvas.noStroke();
-    
+
     //reset paddles out
     //p1Pos.y = mouseY;
     //p2Pos.y = mouseY;
 
 
-    if (timerReset.isTimerEnded() && gameover == true) {
+    if ( timerReset.isTimerEnded() && gameover == true && timerStartLvl.isTimerEnded() ) {
       initGame();
     }
 
@@ -314,19 +319,22 @@ class Pong {
               scoreR++; //score +1
             }
             if (scoreL == scoreMax * lvl || scoreR == scoreMax * lvl) {
+              timerStartLvl.startTimer(startLvl);
               lvl = lvl + 1;
               switch(lvl) {
-              case 1: 
-                level1();
-                break;
-
+              case 1:              
+                  level1();
+                  break;
+                
               case 2: 
-                level2();
-                break;
+                  level2();
+                  break;
+                
 
               case 3: 
-                level3();
-                break;
+                  level3();
+                  break;
+                
               }
             }
 
@@ -360,18 +368,18 @@ class Pong {
       }
     }
 
-/*
+    /*
     for (int nety=0; nety<_height+50; nety=nety+20) {
-      rect(_width/2, nety, 10, 10);
-    }
- */  
+     rect(_width/2, nety, 10, 10);
+     }
+     */
     //raquettes
     canvas.fill(255);
     canvas.rect(p1Pos.x - pWidth/2, p1Pos.y - pHeight/2, pWidth, pHeight);
     canvas.rect(p2Pos.x - pWidth/2, p2Pos.y - pHeight/2, pWidth, pHeight);
 
 
-    
+
 
     canvas.endDraw();
   }

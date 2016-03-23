@@ -34,6 +34,11 @@ float transparencyMessage = 255;
 
 Pong pong;
 
+// Timer
+Timer timerLaunchGame;
+
+
+
 void settings() {
   // Set the initial frame size
   //size(1920, 1080, P2D);
@@ -60,6 +65,9 @@ void setup() {
   // Setup pong
   pong = new Pong();
   pong.setup();
+
+  //new timerBonus
+  timerLaunchGame = new Timer();
 
 
   // affichage score
@@ -92,9 +100,11 @@ void draw() {
     if (PongNeedSetup == true) {
       pong.setup(); 
       PongNeedSetup = false;
+      timerLaunchGame.startTimer(5000);
     }
-
-    pong.draw();
+    if ( timerLaunchGame.isTimerEnded() ) {
+      pong.draw();
+    }
   } else {
     PongNeedSetup = true;
   }
@@ -143,21 +153,21 @@ void draw() {
 
   canvas.tint(255, transparencyLeft);
   canvas.image(imgTarget1, width*0.3, height*0.5, imgTarget1.width*0.6, imgTarget1.height*0.6);
-  
+
   canvas.tint(255, transparencyLeft);
   canvas.image(imgTarget2, width*0.3, height*0.5, imgTarget2.width*0.6, imgTarget2.height*0.6);
 
   canvas.tint(255, transparencyRight);
   canvas.image(imgTarget1, width*0.7, height*0.5, imgTarget1.width*0.6, imgTarget1.height*0.6);
-    
+
   canvas.tint(255, transparencyRight);
   canvas.image(imgTarget2, width*0.7, height*0.5, imgTarget2.width*0.6, imgTarget2.height*0.6);
-  
+
   /*canvas.tint(255, transparencyLeft);
-  canvas.image(imgLueurLeft, width*0.3, height*0.5, imgLueurLeft.width*0.6, imgLueurLeft.height*0.6);
-  
-  canvas.tint(255, transparencyRight);
-  canvas.image(imgLueurLeft, width*0.7, height*0.5, imgLueurLeft.width*0.6, imgLueurLeft.height*0.6);*/
+   canvas.image(imgLueurLeft, width*0.3, height*0.5, imgLueurLeft.width*0.6, imgLueurLeft.height*0.6);
+   
+   canvas.tint(255, transparencyRight);
+   canvas.image(imgLueurLeft, width*0.7, height*0.5, imgLueurLeft.width*0.6, imgLueurLeft.height*0.6);*/
 
   // Draw the pong
   canvas.tint(255);
