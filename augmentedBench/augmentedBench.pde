@@ -165,7 +165,7 @@ void draw() {
   canvas.imageMode(CENTER);
   if (! timerLaunchGame.isTimerEnded() ) {
   canvas.tint(255, transparencyMessage);  
-  canvas.image(imgMessageIntro, width/2, height/2, imgMessageIntro.width*0.25, imgMessageIntro.height*0.25);
+  canvas.image(imgMessageIntro, width/2, height/2, imgMessageIntro.width*0.22, imgMessageIntro.height*0.22);
   }
 
   canvas.tint(255, transparencyLeft * (sin(millis() * 0.001)+1)/2*0.8);

@@ -406,7 +406,15 @@ class Pong {
     } else { 
       // gameover image
       canvas.imageMode(CENTER);
-      canvas.image(imgGameOver, _width/2, _height/2, imgGameOver.height/imgGameOver.width * _height, _height);
+      if(scoreL > scoreR){
+        canvas.image(imgGameOver, _width/2, _height/2, imgGameOver.height/imgGameOver.width * _height, _height);
+      } else {
+        canvas.pushMatrix();
+        canvas.translate(_width/2, _height/2);
+        canvas.rotate(PI);
+        canvas.image(imgGameOver, 0, 0, imgGameOver.height/imgGameOver.width * _height, _height);
+        canvas.popMatrix();
+      }
       canvas.imageMode(CORNER);
     }
 
