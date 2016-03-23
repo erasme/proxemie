@@ -68,7 +68,7 @@ void setup() {
   imgLogo = loadImage("img/logocouleur.png");
 
   // Setup pong
-  pong = new Pong();
+  pong = new Pong(this);
   pong.setup();
 
   //new timerBonus
@@ -165,7 +165,7 @@ void draw() {
   canvas.imageMode(CENTER);
   if (! timerLaunchGame.isTimerEnded() ) {
   canvas.tint(255, transparencyMessage);  
-  canvas.image(imgMessageIntro, width/2, height/2, imgMessageIntro.width/2, imgMessageIntro.height/2);
+  canvas.image(imgMessageIntro, width/2, height/2, imgMessageIntro.width*0.25, imgMessageIntro.height*0.25);
   }
 
   canvas.tint(255, transparencyLeft * (sin(millis() * 0.001)+1)/2*0.8);
@@ -208,7 +208,7 @@ void draw() {
   // Draw the pong
   canvas.tint(255);
   if (LeftPersonIsHere == true && RightPersonIsHere == true) {
-    canvas.image(pong.canvas, width/2, height/2, pong.canvas.width*0.8, pong.canvas.height*0.8);
+    canvas.image(pong.canvas, width/2, height/2 + 5, pong.canvas.width*0.6, pong.canvas.height*0.6);
 
     if ( timerLaunchGame.isTimerEnded() ) {
       // Affichage du logo

@@ -1,7 +1,10 @@
 import oscP5.*; // OSC for controller
+import processing.sound.*;
 
 class Pong {
 
+  augmentedBench augmentedBenchPtr;
+  
   int _width = 640;
   int _height = 400;
 
@@ -52,6 +55,7 @@ class Pong {
 
   PImage bg, bonusimg, malusimg, imgGameOver;
   color obstacle_color = color( 255, 205, 0);
+  //SoundFile soundBonus, soundEndgame, soundInitgame, soundMalus, soundObstacle, soundPing, soundPong, soundScore;
 
   // Niveaux
   int lvl;
@@ -60,6 +64,10 @@ class Pong {
   boolean isPlaying;
   boolean gameover;
 
+
+  Pong(augmentedBench ptr){
+    augmentedBenchPtr = ptr;
+  }
 
   void setup() {
 
@@ -143,6 +151,16 @@ class Pong {
     obstacles_number = 1;
     malus_number = 1;
     bonus_number = 1;
+    
+    /*soundBonus = new SoundFile(augmentedBenchPtr, "audio/niv1/niv1_bonus.wav");
+    soundEndgame = new SoundFile(augmentedBenchPtr, "audio/niv1/niv1_endgame.wav");
+    soundInitgame = new SoundFile(augmentedBenchPtr, "audio/niv1/niv1_initgame.wav");
+    soundMalus = new SoundFile(augmentedBenchPtr, "audio/niv1/niv1_malus.wav");
+    soundObstacle = new SoundFile(augmentedBenchPtr, "audio/niv1/niv1_obstacle.wav");
+    soundPing = new SoundFile(augmentedBenchPtr, "audio/niv1/niv1_ping.wav");
+    soundPong = new SoundFile(augmentedBenchPtr, "audio/niv1/niv1_pong.wav");
+    soundScore = new SoundFile(augmentedBenchPtr, "audio/niv1/niv1_score.wav");
+    */
   }
 
   void level2() {
