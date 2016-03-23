@@ -48,7 +48,7 @@ class Pong {
   int bonus_number = 1;
   int resetTime = 1000;
   int startLvl = 5000;
-  int scoreMax = 2;
+  int scoreMax = 4;
 
 
   // Chargement images
