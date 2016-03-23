@@ -1,11 +1,11 @@
 <Settings>
 	<OSC_Host>127.0.0.1</OSC_Host>
 	<OSC_Port>9000</OSC_Port>
-	<Hand_Near_Threshold>61</Hand_Near_Threshold>
-	<Hand_Far_Threshold>80</Hand_Far_Threshold>
+	<Hand_Near_Threshold>51</Hand_Near_Threshold>
+	<Hand_Far_Threshold>74</Hand_Far_Threshold>
 	<Near_Depth_Clipping>500</Near_Depth_Clipping>
 	<Far_Depth_Clipping>7025</Far_Depth_Clipping>
 <Settings/>
-	<Interactive_Area_Pos>208.98, 95.5102</Interactive_Area_Pos>
-	<Interactive_Area_Size>130.612, 264.49</Interactive_Area_Size>
+	<Interactive_Area_Pos>231.837, 100.408</Interactive_Area_Pos>
+	<Interactive_Area_Size>114.286, 237.551</Interactive_Area_Size>
 </Settings>

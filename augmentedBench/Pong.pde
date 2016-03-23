@@ -386,7 +386,10 @@ class Pong {
       canvas.rect(p1Pos.x - pWidth/2, p1Pos.y - pHeight/2, pWidth, pHeight);
       canvas.rect(p2Pos.x - pWidth/2, p2Pos.y - pHeight/2, pWidth, pHeight);
     } else { 
-      canvas.image(imgGameOver, 0, 0, width*0.5, height*0.5);
+      // gameover image
+      canvas.imageMode(CENTER);
+      canvas.image(imgGameOver, _width/2, _height/2, imgGameOver.height/imgGameOver.width * _height, _height);
+      canvas.imageMode(CORNER);
     }
 
     /*
