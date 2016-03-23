@@ -50,7 +50,7 @@ class Pong {
 
   // Chargement images
 
-  PImage bg, bonusimg, malusimg;
+  PImage bg, bonusimg, malusimg, imgGameOver;
   color obstacle_color = color( 255, 205, 0);
 
   // Niveaux
@@ -66,6 +66,8 @@ class Pong {
     // Create the canvas that will be used to send the syphon output
     canvas = createGraphics(_width, _height, P2D);
     canvas.noStroke();
+    
+    imgGameOver = loadImage("img/gameover.png");
 
     isPlaying = false;
     gameover = false;
@@ -383,9 +385,9 @@ class Pong {
       canvas.fill(255);
       canvas.rect(p1Pos.x - pWidth/2, p1Pos.y - pHeight/2, pWidth, pHeight);
       canvas.rect(p2Pos.x - pWidth/2, p2Pos.y - pHeight/2, pWidth, pHeight);
-    //} else { canvas.image()
+    } else { 
+      canvas.image(imgGameOver, 0, 0, width*0.5, height*0.5);
     }
-  
 
     /*
     for (int nety=0; nety<_height+50; nety=nety+20) {

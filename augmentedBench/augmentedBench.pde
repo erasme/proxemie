@@ -28,7 +28,7 @@ PImage imgTarget1;
 PImage imgTarget2;
 PImage imgLueurLeft;
 PImage imgLueurRight;
-PImage imgMessage;
+PImage imgMessageIntro;
 PImage imgLogo;
 
 float transparencyLeft = 255;
@@ -62,7 +62,7 @@ void setup() {
   // Load images
   imgTarget1 = loadImage("img/cible1-1.png");
   imgTarget2 = loadImage("img/cible1-2.png");
-  imgMessage = loadImage("img/message.png");
+  imgMessageIntro = loadImage("img/messageintro.png");
   imgLueurLeft = loadImage("img/lueurleft.png");
   imgLueurRight = loadImage("img/lueurright.png");
   imgLogo = loadImage("img/logocouleur.png");
@@ -164,7 +164,7 @@ void draw() {
 
   canvas.imageMode(CENTER);
   canvas.tint(255, transparencyMessage);  
-  canvas.image(imgMessage, 300, 320);
+  canvas.image(imgMessageIntro, 300, 320);
 
   canvas.tint(255, transparencyLeft * (sin(millis() * 0.001)+1)/2*0.8);
   canvas.image(imgLueurLeft, width*0.3, height*0.5, imgLueurLeft.width*0.6, imgLueurLeft.height*0.6);
