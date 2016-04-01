@@ -1,0 +1,97 @@
+<root>
+<GUI>
+    <Zoom>1</Zoom>
+    <Number_of_polygons>2</Number_of_polygons>
+    <Polygons>
+        <Delete_all_polygons>0</Delete_all_polygons>
+        <Delete_last_polygon>0</Delete_last_polygon>
+        <Display_polygon_info>1</Display_polygon_info>
+    </Polygons>
+    <OSC>
+        <Send_all_event>0</Send_all_event>
+        <Anti_bounce_ms>100</Anti_bounce_ms>
+    </OSC>
+    <SYPHON>
+        <on_off>0</on_off>
+    </SYPHON>
+    <Augmenta>
+        <Auto_resize>0</Auto_resize>
+    </Augmenta>
+</GUI>
+<Settings>
+    
+    <HideInterface>0</HideInterface>
+    <LogToFile>0</LogToFile>
+    <WindowWidth>1024</WindowWidth>
+    <WindowHeight>768</WindowHeight>
+    <FboWidth>1024</FboWidth>
+    <FboHeight>768</FboHeight>
+    <FboOffsetX>220.000000000</FboOffsetX>
+    <FboOffsetY>8.000000000</FboOffsetY>
+    <NextFreeId>11</NextFreeId>
+</Settings>
+<OSC>
+    
+    <Sender>
+        
+        <Ip>127.0.0.1</Ip>
+        <Port>7000</Port>
+    </Sender>
+</OSC>
+<AreaPolygon>
+    
+    <Point>
+        
+        <x>0.407577932</x>
+        <y>0.542947769</y>
+    </Point>
+    <Point>
+        
+        <x>0.564265728</x>
+        <y>0.659968853</y>
+    </Point>
+    <Point>
+        
+        <x>0.484047055</x>
+        <y>0.849770904</y>
+    </Point>
+    <Point>
+        
+        <x>0.322757542</x>
+        <y>0.741791725</y>
+    </Point>
+    <Osc>
+        
+        <In>/benchLeft/personEntered</In>
+        <Out>/benchLeft/personWillLeave</Out>
+    </Osc>
+</AreaPolygon>
+<AreaPolygon>
+    
+    <Point>
+        
+        <x>0.461124897</x>
+        <y>0.382812500</y>
+    </Point>
+    <Point>
+        
+        <x>0.636156559</x>
+        <y>0.498697907</y>
+    </Point>
+    <Point>
+        
+        <x>0.711726665</x>
+        <y>0.301781237</y>
+    </Point>
+    <Point>
+        
+        <x>0.541484118</x>
+        <y>0.183593750</y>
+    </Point>
+    <Osc>
+        
+        <In>/benchRight/personEntered</In>
+        <Out>/benchRight/personWillLeave</Out>
+    </Osc>
+</AreaPolygon>
+</root>
